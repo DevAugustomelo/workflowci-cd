@@ -1,0 +1,47 @@
+
+/generated/prisma
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment variables / secrets
+.env
+.env.*
+!.env.example
+
+# Test coverage
+coverage/
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE / editors
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+
+# Local Terraform state
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+# Terraform variable files may contain secrets
+*.tfvars
+*.tfvars.json
+
+# LocalStack
+.localstack/
+
+# Temporary files
+*.tmp
+*.temp
