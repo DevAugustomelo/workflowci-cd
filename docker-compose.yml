@@ -1,19 +1,4 @@
 services:
-  api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: observabilidade-api
-    ports:
-      - '3000:3000'
-    environment:
-      NODE_ENV: production
-      PORT: 3000
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/observabilidade?schema=public
-    depends_on:
-      postgres:
-        condition: service_healthy
-
   postgres:
     image: postgres:16-alpine
     container_name: observabilidade-postgres
@@ -30,6 +15,34 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+
+  migration:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: build
+    container_name: observabilidade-migration
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/observabilidade?schema=public
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: ['npx', 'prisma', 'migrate', 'deploy']
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: observabilidade-api
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/observabilidade?schema=public
+    depends_on:
+      migration:
+        condition: service_completed_successfully
 
 volumes:
   postgres_data:
