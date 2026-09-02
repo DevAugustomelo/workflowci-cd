@@ -1,0 +1,13 @@
+Como aplicar este patch no seu projeto clonado:
+
+1. Copie a pasta src/metrics/ e src/middlewares/ para dentro da sua pasta src/.
+2. Substitua o seu src/server.ts pelo deste pacote (ou aplique manualmente as 3 linhas novas: import do middleware, import do register, app.use(metricsMiddleware) e a rota /metrics).
+3. Substitua o seu docker-compose.yml por este (ou apenas adicione os serviços "prometheus" e "grafana" ao final, mantendo os seus serviços postgres/migration/api).
+4. Copie a pasta monitoring/ inteira para a raiz do seu projeto.
+5. Rode: npm install @prometheus-io/client --save
+6. Rode: docker compose up --build
+7. Acesse:
+   - API:        http://localhost:3000
+   - Métricas:   http://localhost:3000/metrics
+   - Prometheus: http://localhost:9090
+   - Grafana:    http://localhost:3001  (login: admin / senha: admin)
